@@ -7,7 +7,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Api Teste')
-    .setDescription('Teste Fortec')
+    .setDescription('Teste FATEC')
     .setVersion('1.0')
     .addTag('CRUD')
     .build();
