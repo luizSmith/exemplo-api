@@ -1,4 +1,4 @@
-import { Controller, Get, Post, HttpStatus, Body } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Body, Param, Delete } from '@nestjs/common';
 import { SerieService } from '../service/serie.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ObserSeriesResponse } from './request/obterSeries.response';
@@ -28,5 +28,16 @@ export class SerieController {
     @Body() parametros: InserirSerieRequest
   ): Promise<ObserSeriesResponse> {
     return await this._serieService.inserirSeries(parametros);
+  }
+
+  @Delete(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'serie Deletada'
+})
+  async deletarSerie(
+    @Param('id') id: number,
+  ): Promise<void> {
+    await this._serieService.deletarSerie(id);
   }
 }

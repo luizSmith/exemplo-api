@@ -32,4 +32,10 @@ export class SerieRepository extends BaseRepository<Serie> {
 
         return resultadoInserir;
     }
+
+    async deletarSerie(id: number): Promise<void> {
+        await this.delete({
+            idSerie: id
+        })
+    }
 }

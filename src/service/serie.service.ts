@@ -18,4 +18,8 @@ export class SerieService {
     const retornoSeries = await this._serieRepository.inserirSerie(parametros);
     return retornoSeries;
   }
+
+  async deletarSerie(id: number): Promise<void> {
+    await this._serieRepository.deletarSerie(id);
+  }
 }
