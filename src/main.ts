@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Api Teste')
+    .setTitle('Api Series')
     .setDescription('Teste FATEC')
     .setVersion('1.0')
     .addTag('CRUD')

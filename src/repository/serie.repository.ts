@@ -24,6 +24,25 @@ export class SerieRepository extends BaseRepository<Serie> {
         return result;
     }
 
+    async buscarSerieNome(nome: string): Promise<Serie> {
+        const result = this.createQueryBuilder('series')
+        .where("nm_serie = :nome", {
+            nome
+        })
+        .getRawOne();
+        return result;
+    }
+
+    async buscarSerieId(id: number): Promise<Serie | undefined> {
+        const result = await this.createQueryBuilder('series')
+            .where('series.cd_serie = :id', {
+                id
+            })
+            .getOne();
+
+        return result;
+    }
+
     async inserirSerie(parametros: InserirSerieDTO): Promise<InserirSerieDAO> {
         const resultadoInserir = await this.create({
             nomeSerie: parametros.nomeSerie,
