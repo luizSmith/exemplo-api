@@ -3,6 +3,7 @@ import { SerieService } from '../service/serie.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ObserSeriesResponse } from './request/obterSeries.response';
 import { InserirSerieRequest } from './request/inserirSerie.request';
+import { CustomException } from 'src/infraestructure/customExceptions/customError.exception';
 
 @Controller('/series')
 @ApiTags('Series')
@@ -24,6 +25,16 @@ export class SerieController {
     description: "Serie foi inserida com sucesso",
     type: ObserSeriesResponse
   })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Serie não encontrado',
+    type: CustomException,
+ })
+ @ApiResponse({
+     status: HttpStatus.INTERNAL_SERVER_ERROR,
+     description: 'Erro interno, contate o administrador',
+     type: CustomException,
+ })
   async inserirSerie(
     @Body() parametros: InserirSerieRequest
   ): Promise<ObserSeriesResponse> {
@@ -34,7 +45,17 @@ export class SerieController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'serie Deletada'
-})
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Serie não encontrado',
+    type: CustomException,
+  })
+  @ApiResponse({
+     status: HttpStatus.INTERNAL_SERVER_ERROR,
+     description: 'Erro interno, contate o administrador',
+     type: CustomException,
+  })
   async deletarSerie(
     @Param('id') id: number,
   ): Promise<void> {
