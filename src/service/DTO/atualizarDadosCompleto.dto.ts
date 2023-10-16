@@ -1,4 +1,4 @@
-export class InserirSerieDTO {
+export class AtualizarDadosCompletosDTO {
     nomeSerie: string;
     dataSerie: string;
 }

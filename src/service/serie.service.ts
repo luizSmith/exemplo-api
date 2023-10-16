@@ -3,6 +3,9 @@ import { InserirSerieRequest } from 'src/controller/request/inserirSerie.request
 import { ObserSeriesResponse } from 'src/controller/request/obterSeries.response';
 import { CustomException } from 'src/infraestructure/customExceptions/customError.exception';
 import { SerieRepository } from 'src/repository/serie.repository';
+import { AtualizarDadosCompletosDTO } from './DTO/atualizarDadosCompleto.dto';
+import { AtualizarDadosCompletoRequest } from 'src/controller/request/atualizarDadosCompleto.request';
+import { AtualizarDadosCompletoResponse } from 'src/controller/request/atualizarDadosCompleto.request copy';
 
 @Injectable()
 export class SerieService {
@@ -43,5 +46,20 @@ export class SerieService {
     }
 
     await this._serieRepository.deletarSerie(id);
+  }
+
+  async atualizarDadosCompleto(id: number, parametros: AtualizarDadosCompletoRequest): Promise<AtualizarDadosCompletoResponse> {
+    const serie = await this._serieRepository.buscarSerieId(id);
+
+    if (!serie) {
+        throw new CustomException(['Identificador da serie nao existe'], 404);
+    }
+
+    await this._serieRepository.atualizarDadosCompleto(id, parametros);
+
+    return {
+        mensagem: "Dados atualizados",
+        ...parametros
+    }
   }
 }

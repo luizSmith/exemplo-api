@@ -1,9 +1,11 @@
-import { Controller, Get, Post, HttpStatus, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Body, Param, Delete, Put } from '@nestjs/common';
 import { SerieService } from '../service/serie.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ObserSeriesResponse } from './request/obterSeries.response';
 import { InserirSerieRequest } from './request/inserirSerie.request';
 import { CustomException } from 'src/infraestructure/customExceptions/customError.exception';
+import { AtualizarDadosCompletoRequest } from './request/atualizarDadosCompleto.request';
+import { AtualizarDadosCompletoResponse } from './request/atualizarDadosCompleto.request copy';
 
 @Controller('/series')
 @ApiTags('Series')
@@ -81,5 +83,28 @@ export class SerieController {
     @Param('id') id: number,
   ): Promise<void> {
     await this._serieService.deletarSerie(id);
+  }
+
+  @Put(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'serie Deletada',
+    type: AtualizarDadosCompletoResponse
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Serie não encontrado',
+    type: CustomException,
+  })
+  @ApiResponse({
+     status: HttpStatus.INTERNAL_SERVER_ERROR,
+     description: 'Erro interno, contate o administrador',
+     type: CustomException,
+  })
+  async atualizarDadosCompleto(
+    @Param('id') id: number,
+    @Body() parametros: AtualizarDadosCompletoRequest
+  ): Promise<AtualizarDadosCompletoResponse> {
+    return await this._serieService.atualizarDadosCompleto(id, parametros);
   }
 }

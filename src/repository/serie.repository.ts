@@ -3,6 +3,7 @@ import { BaseRepository } from "typeorm-transactional-cls-hooked";
 import { Serie } from "./entity/series.entity";
 import { InserirSerieDTO } from "src/service/DTO/inserirSerie.dto";
 import { InserirSerieDAO } from "./DAO/inserirSerie.dao";
+import { AtualizarDadosCompletosDTO } from "src/service/DTO/atualizarDadosCompleto.dto";
 
 @EntityRepository(Serie)
 export class SerieRepository extends BaseRepository<Serie> {
@@ -56,5 +57,18 @@ export class SerieRepository extends BaseRepository<Serie> {
         await this.delete({
             idSerie: id
         })
+    }
+
+    async atualizarDadosCompleto(id: number, parametros: AtualizarDadosCompletosDTO): Promise<void> {
+        await this.createQueryBuilder('series')
+            .update(Serie)
+            .set({
+                nomeSerie: parametros.nomeSerie,
+                dataSerie: parametros.dataSerie,
+            })
+            .where('cd_serie = :id', { id })
+            .execute();
+
+        console.info('updated patient: ', id);
     }
 }
