@@ -19,6 +19,27 @@ export class SerieController {
     return await this._serieService.obterSeries();
   }
 
+  @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: ObserSeriesResponse,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Serie não encontrada',
+    type: CustomException,
+ })
+ @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Erro interno, contate o administrador',
+    type: CustomException,
+ })
+  async obterSeriesId(
+        @Param('id') id: number
+    ): Promise<ObserSeriesResponse> {
+    return await this._serieService.obterSerieId(id);
+  }
+
   @Post()
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -27,7 +48,7 @@ export class SerieController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Serie não encontrado',
+    description: 'Serie não encontrada',
     type: CustomException,
  })
  @ApiResponse({

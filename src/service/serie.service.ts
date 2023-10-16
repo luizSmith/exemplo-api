@@ -15,6 +15,15 @@ export class SerieService {
     return retornoSeries;
   }
 
+  async obterSerieId(id: number): Promise<ObserSeriesResponse> {
+    const retornoSeries = await this._serieRepository.buscarSerieId(id);
+
+    if (!retornoSeries) {
+        throw new CustomException(['Já não foi encontrada'], 404);
+    } 
+    return retornoSeries;
+  }
+
   async inserirSeries(parametros: InserirSerieRequest): Promise<ObserSeriesResponse> {
     const verificaExistencia = await this._serieRepository.buscarSerieNome(parametros.nomeSerie);
 
