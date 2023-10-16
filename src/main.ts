@@ -12,7 +12,6 @@ async function bootstrap() {
     .setTitle('Api Series')
     .setDescription('Teste FATEC')
     .setVersion('1.0')
-    .addTag('CRUD')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
