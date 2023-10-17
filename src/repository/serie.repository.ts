@@ -7,7 +7,7 @@ import { AtualizarDadosCompletosDTO } from "src/service/DTO/atualizarDadosComple
 
 @EntityRepository(Serie)
 export class SerieRepository extends BaseRepository<Serie> {
-    async buscarSeries(): Promise<Serie[]> {
+    async buscarSeries(nomeBusca?: string): Promise<Serie[]> {
         const result = this.createQueryBuilder('series')
         .select(
             'series.cd_serie',
@@ -20,9 +20,20 @@ export class SerieRepository extends BaseRepository<Serie> {
         .addSelect(
             'series.dt_lancamento',
             'dataSerie'
-        )
-        .getRawMany();
-        return result;
+        );
+
+        if (nomeBusca) {
+            result.where(
+                `nm_serie LIKE "${nomeBusca}%"`, {
+                    nomeBusca
+                }
+            )
+        }
+
+        console.log(result.getQueryAndParameters);
+        
+        
+        return result.getRawMany();
     }
 
     async buscarSerieNome(nome: string): Promise<Serie> {

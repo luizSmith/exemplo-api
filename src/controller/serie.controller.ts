@@ -1,4 +1,4 @@
-import { Controller, Get, Post, HttpStatus, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Body, Param, Delete, Put, Query } from '@nestjs/common';
 import { SerieService } from '../service/serie.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ObserSeriesResponse } from './request/obterSeries.response';
@@ -17,8 +17,15 @@ export class SerieController {
     status: HttpStatus.OK,
     type: ObserSeriesResponse,
   })
-  async obterSeries(): Promise<ObserSeriesResponse[]> {
-    return await this._serieService.obterSeries();
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Serie não encontrada',
+    type: CustomException,
+ })
+  async obterSeries(
+    @Query('nomeBusca') nomeBusca: string
+  ): Promise<ObserSeriesResponse[]> {
+    return await this._serieService.obterSeries(nomeBusca);
   }
 
   @Get(':id')

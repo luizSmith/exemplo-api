@@ -13,8 +13,8 @@ export class SerieService {
         private readonly _serieRepository: SerieRepository,
     ) {}
 
-  async obterSeries(): Promise<ObserSeriesResponse[]> {
-    const retornoSeries = await this._serieRepository.buscarSeries();
+  async obterSeries(nomeBusca?: string): Promise<ObserSeriesResponse[]> {
+    const retornoSeries = await this._serieRepository.buscarSeries(nomeBusca);
     return retornoSeries;
   }
 
