@@ -1,0 +1,11 @@
+services:
+  teste-google-api:
+    container_name: "demo-pipeline-app"
+    image: "demo-app"
+    build: .
+    ports:
+    -  "3000:3000"
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
+    entrypoint: ["npm", "run", "start"]
